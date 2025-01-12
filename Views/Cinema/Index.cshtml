@@ -1,0 +1,8 @@
+﻿@model IEnumerable<Cinema>
+@{
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Cinemas</h1>
+<a asp-action="Create" class="btn btn-primary">Create New</a>
+<partial name="_ListPartial" model="Model"/>

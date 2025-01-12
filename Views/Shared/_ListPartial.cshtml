@@ -1,0 +1,27 @@
+﻿@model IEnumerable<dynamic>
+<table>
+	<thead>
+		<tr>
+			@foreach (var prop in Model.FirstOrDefault()?.GetType().GetProperties())
+			{
+				<th>@prop.Name</th>
+			}
+			<th>Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var item in Model) 
+		{
+			<tr>
+				@foreach (var prop in item.GetType().GetProperties()) 
+				{
+					<td>@prop.GetValue(item)</td>
+				}
+				<td>
+					<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> | 
+					<a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>
