@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using ReservationCinema.Data;
+using ReservationCinema.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
         new MySqlServerVersion(new Version(4, 9, 7)) //Adapter à la version sur WAMP
     )
 );
+builder.Services.AddScoped(typeof(IGenericService<>), typeof(GenericService<>));
 
 var app = builder.Build();
 
