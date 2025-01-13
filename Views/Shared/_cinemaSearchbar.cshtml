@@ -1,0 +1,35 @@
+﻿<div class="mb-4">
+    <input type="text"
+           id="searchBar"
+           class="form-control"
+           placeholder="Rechercher un cinéma..." />
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        let timeout = null;
+
+        $('#searchBar').on('input', function () {
+            clearTimeout(timeout); // Réinitialise le délai si l'utilisateur continue de taper
+
+            timeout = setTimeout(function () {
+                const searchQuery = $('#searchBar').val();
+
+                // Appel AJAX pour rechercher les cinémas
+                $.ajax({
+                    url: '@Url.Action("SearchCinemas", "Cinema")',
+                    type: 'GET',
+                    data: { query: searchQuery },
+                    success: function (data) {
+                        // Met à jour uniquement la liste des cinémas avec le résultat de la recherche
+                        $('#cinemaListContainer').html(data);
+                    },
+                    error: function () {
+                        alert('Erreur lors de la recherche des cinémas.');
+                    }
+                });
+            }, 1000); // Délai de 1 seconde
+        });
+    });
+</script>

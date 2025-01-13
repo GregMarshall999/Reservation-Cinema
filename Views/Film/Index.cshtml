@@ -1,0 +1,23 @@
+﻿@model IEnumerable<ReservationCinema.Models.Film>
+
+<h1>Liste des Films</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Durée</th>
+            <th>Genre</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var film in Model)
+        {
+            <tr>
+                <td>@film.Titre</td>
+                <td>@film.Annee</td>
+                <td>@film.Genre</td>
+            </tr>
+        }
+    </tbody>
+</table>

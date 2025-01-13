@@ -1,8 +1,13 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@model IEnumerable<ReservationCinema.Models.Cinema>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="cinema-list container my-5">
+    <h3 class="text-center mb-4">Nos Cinémas</h3>
+
+    <!-- Inclure la vue partielle de la barre de recherche -->
+    @Html.Partial("_cinemaSearchbar")
+
+    <!-- Inclure la vue partielle de la liste des cinémas -->
+    <div id="cinemaListContainer">
+        @Html.Partial("_cinemaList", Model)
+    </div>
 </div>
