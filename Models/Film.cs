@@ -7,6 +7,6 @@
         public DateOnly Annee { get; set; }
         public string Genre { get; set; }
 
-        public ICollection<Seance> Seances { get; set; }
+        public ICollection<Seance>? Seances { get; set; }
     }
 }

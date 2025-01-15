@@ -6,6 +6,6 @@
         public DateTime HeureDebut { get; set; }
         public DateTime HeureFin { get; set; }
 
-        public ICollection<Seance> Seances { get; set; }
+        public ICollection<Seance>? Seances { get; set; }
     }
 }
