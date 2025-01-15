@@ -1,13 +1,14 @@
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using ReservationCinema.Data;
 using ReservationCinema.Models;
 
 public class SalleController : Controller
 {
-    private readonly MyContext _context;
+    private readonly ApplicationDbContext _context;
 
-    public SalleController(MyContext context)
+    public SalleController(ApplicationDbContext context)
     {
         _context = context;
     }
@@ -15,7 +16,7 @@ public class SalleController : Controller
     // GET: SALLES
     public async Task<IActionResult> Index()    
     {
-        return View(await _context.Salle.ToListAsync());
+        return View(await _context.Salles.ToListAsync());
     }
 
     // GET: SALLES/Details/5
@@ -26,7 +27,7 @@ public class SalleController : Controller
             return NotFound();
         }
 
-        var salle = await _context.Salle
+        var salle = await _context.Salles
             .FirstOrDefaultAsync(m => m.Id == id);
         if (salle == null)
         {
@@ -47,7 +48,7 @@ public class SalleController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("ID,Title,ReleaseDate,Genre,Price")] Salle movie)
+    public async Task<IActionResult> Create([Bind("ID,Title,ReleaseDate,Genre,Price")] Salle salle)
     {
         if (ModelState.IsValid)
         {
@@ -66,7 +67,7 @@ public class SalleController : Controller
             return NotFound();
         }
 
-        var salle = await _context.Salle.FindAsync(id);
+        var salle = await _context.Salles.FindAsync(id);
         if (salle == null)
         {
             return NotFound();
@@ -79,7 +80,7 @@ public class SalleController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int? id, [Bind("ID,Title,ReleaseDate,Genre,Price")] Salle movie)
+    public async Task<IActionResult> Edit(int? id, [Bind("ID,Title,ReleaseDate,Genre,Price")] Salle salle)
     {
         if (id != salle.Id)
         {
@@ -117,7 +118,7 @@ public class SalleController : Controller
             return NotFound();
         }
 
-        var salle = await _context.Salle
+        var salle = await _context.Salles
             .FirstOrDefaultAsync(m => m.Id == id);
         if (salle == null)
         {
@@ -132,10 +133,10 @@ public class SalleController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(int? id)
     {
-        var salle = await _context.Salle.FindAsync(id);
+        var salle = await _context.Salles.FindAsync(id);
         if (salle != null)
         {
-            _context.Salle.Remove(salle);
+            _context.Salles.Remove(salle);
         }
 
         await _context.SaveChangesAsync();
@@ -144,6 +145,6 @@ public class SalleController : Controller
 
     private bool SalleExists(int? id)
     {
-        return _context.Salle.Any(e => e.Id == id);
+        return _context.Salles.Any(e => e.Id == id);
     }
 }

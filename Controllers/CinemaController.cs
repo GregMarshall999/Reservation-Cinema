@@ -1,13 +1,14 @@
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using ReservationCinema.Data;
 using ReservationCinema.Models;
 
 public class CinemaController : Controller
 {
-    private readonly MyContext _context;
+    private readonly ApplicationDbContext _context;
 
-    public CinemaController(MyContext context)
+    public CinemaController(ApplicationDbContext context)
     {
         _context = context;
     }
@@ -15,7 +16,7 @@ public class CinemaController : Controller
     // GET: CINEMAS
     public async Task<IActionResult> Index()    
     {
-        return View(await _context.Cinema.ToListAsync());
+        return View(await _context.Cinemas.ToListAsync());
     }
 
     // GET: CINEMAS/Details/5
@@ -26,7 +27,7 @@ public class CinemaController : Controller
             return NotFound();
         }
 
-        var cinema = await _context.Cinema
+        var cinema = await _context.Cinemas
             .FirstOrDefaultAsync(m => m.Id == id);
         if (cinema == null)
         {
@@ -47,7 +48,7 @@ public class CinemaController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("ID,Title,ReleaseDate,Genre,Price")] Cinema movie)
+    public async Task<IActionResult> Create([Bind("ID,Nom,Ville,Rue,Numero")] Cinema cinema)
     {
         if (ModelState.IsValid)
         {
@@ -66,7 +67,7 @@ public class CinemaController : Controller
             return NotFound();
         }
 
-        var cinema = await _context.Cinema.FindAsync(id);
+        var cinema = await _context.Cinemas.FindAsync(id);
         if (cinema == null)
         {
             return NotFound();
@@ -79,7 +80,7 @@ public class CinemaController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int? id, [Bind("ID,Title,ReleaseDate,Genre,Price")] Cinema movie)
+    public async Task<IActionResult> Edit(int? id, [Bind("ID,Nom,Ville,Rue,Numero")] Cinema cinema)
     {
         if (id != cinema.Id)
         {
@@ -117,7 +118,7 @@ public class CinemaController : Controller
             return NotFound();
         }
 
-        var cinema = await _context.Cinema
+        var cinema = await _context.Cinemas
             .FirstOrDefaultAsync(m => m.Id == id);
         if (cinema == null)
         {
@@ -132,10 +133,10 @@ public class CinemaController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(int? id)
     {
-        var cinema = await _context.Cinema.FindAsync(id);
+        var cinema = await _context.Cinemas.FindAsync(id);
         if (cinema != null)
         {
-            _context.Cinema.Remove(cinema);
+            _context.Cinemas.Remove(cinema);
         }
 
         await _context.SaveChangesAsync();
@@ -144,6 +145,6 @@ public class CinemaController : Controller
 
     private bool CinemaExists(int? id)
     {
-        return _context.Cinema.Any(e => e.Id == id);
+        return _context.Cinemas.Any(e => e.Id == id);
     }
 }

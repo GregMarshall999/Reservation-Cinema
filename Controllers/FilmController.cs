@@ -1,13 +1,14 @@
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using ReservationCinema.Data;
 using ReservationCinema.Models;
 
 public class FilmController : Controller
 {
-    private readonly Context _context;
+    private readonly ApplicationDbContext _context;
 
-    public FilmController(Context context)
+    public FilmController(ApplicationDbContext context)
     {
         _context = context;
     }
@@ -15,7 +16,7 @@ public class FilmController : Controller
     // GET: FILMS
     public async Task<IActionResult> Index()    
     {
-        return View(await _context.Film.ToListAsync());
+        return View(await _context.Films.ToListAsync());
     }
 
     // GET: FILMS/Details/5
@@ -26,7 +27,7 @@ public class FilmController : Controller
             return NotFound();
         }
 
-        var film = await _context.Film
+        var film = await _context.Films
             .FirstOrDefaultAsync(m => m.Id == id);
         if (film == null)
         {
@@ -47,7 +48,7 @@ public class FilmController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("ID,Title,ReleaseDate,Genre,Price")] Film movie)
+    public async Task<IActionResult> Create([Bind("ID,Title,ReleaseDate,Genre,Price")] Film film)
     {
         if (ModelState.IsValid)
         {
@@ -66,7 +67,7 @@ public class FilmController : Controller
             return NotFound();
         }
 
-        var film = await _context.Film.FindAsync(id);
+        var film = await _context.Films.FindAsync(id);
         if (film == null)
         {
             return NotFound();
@@ -79,7 +80,7 @@ public class FilmController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int? id, [Bind("ID,Title,ReleaseDate,Genre,Price")] Film movie)
+    public async Task<IActionResult> Edit(int? id, [Bind("ID,Title,ReleaseDate,Genre,Price")] Film film)
     {
         if (id != film.Id)
         {
@@ -117,7 +118,7 @@ public class FilmController : Controller
             return NotFound();
         }
 
-        var film = await _context.Film
+        var film = await _context.Films
             .FirstOrDefaultAsync(m => m.Id == id);
         if (film == null)
         {
@@ -132,10 +133,10 @@ public class FilmController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(int? id)
     {
-        var film = await _context.Film.FindAsync(id);
+        var film = await _context.Films.FindAsync(id);
         if (film != null)
         {
-            _context.Film.Remove(film);
+            _context.Films.Remove(film);
         }
 
         await _context.SaveChangesAsync();
@@ -144,6 +145,6 @@ public class FilmController : Controller
 
     private bool FilmExists(int? id)
     {
-        return _context.Film.Any(e => e.Id == id);
+        return _context.Films.Any(e => e.Id == id);
     }
 }

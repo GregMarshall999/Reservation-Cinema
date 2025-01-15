@@ -1,13 +1,14 @@
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using ReservationCinema.Data;
 using ReservationCinema.Models;
 
 public class HoraireController : Controller
 {
-    private readonly Context _context;
+    private readonly ApplicationDbContext _context;
 
-    public HoraireController(Context context)
+    public HoraireController(ApplicationDbContext context)
     {
         _context = context;
     }
@@ -15,7 +16,7 @@ public class HoraireController : Controller
     // GET: HORAIRES
     public async Task<IActionResult> Index()    
     {
-        return View(await _context.Horaire.ToListAsync());
+        return View(await _context.Horaires.ToListAsync());
     }
 
     // GET: HORAIRES/Details/5
@@ -26,7 +27,7 @@ public class HoraireController : Controller
             return NotFound();
         }
 
-        var horaire = await _context.Horaire
+        var horaire = await _context.Horaires
             .FirstOrDefaultAsync(m => m.Id == id);
         if (horaire == null)
         {
@@ -47,7 +48,7 @@ public class HoraireController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("ID,Title,ReleaseDate,Genre,Price")] Horaire movie)
+    public async Task<IActionResult> Create([Bind("ID,Title,ReleaseDate,Genre,Price")] Horaire horaire)
     {
         if (ModelState.IsValid)
         {
@@ -66,7 +67,7 @@ public class HoraireController : Controller
             return NotFound();
         }
 
-        var horaire = await _context.Horaire.FindAsync(id);
+        var horaire = await _context.Horaires.FindAsync(id);
         if (horaire == null)
         {
             return NotFound();
@@ -79,7 +80,7 @@ public class HoraireController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int? id, [Bind("ID,Title,ReleaseDate,Genre,Price")] Horaire movie)
+    public async Task<IActionResult> Edit(int? id, [Bind("ID,Title,ReleaseDate,Genre,Price")] Horaire horaire)
     {
         if (id != horaire.Id)
         {
@@ -117,7 +118,7 @@ public class HoraireController : Controller
             return NotFound();
         }
 
-        var horaire = await _context.Horaire
+        var horaire = await _context.Horaires
             .FirstOrDefaultAsync(m => m.Id == id);
         if (horaire == null)
         {
@@ -132,10 +133,10 @@ public class HoraireController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(int? id)
     {
-        var horaire = await _context.Horaire.FindAsync(id);
+        var horaire = await _context.Horaires.FindAsync(id);
         if (horaire != null)
         {
-            _context.Horaire.Remove(horaire);
+            _context.Horaires.Remove(horaire);
         }
 
         await _context.SaveChangesAsync();
@@ -144,6 +145,6 @@ public class HoraireController : Controller
 
     private bool HoraireExists(int? id)
     {
-        return _context.Horaire.Any(e => e.Id == id);
+        return _context.Horaires.Any(e => e.Id == id);
     }
 }

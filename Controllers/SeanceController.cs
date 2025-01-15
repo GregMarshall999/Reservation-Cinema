@@ -1,13 +1,14 @@
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using ReservationCinema.Data;
 using ReservationCinema.Models;
 
 public class SeanceController : Controller
 {
-    private readonly Context _context;
+    private readonly ApplicationDbContext _context;
 
-    public SeanceController(Context context)
+    public SeanceController(ApplicationDbContext context)
     {
         _context = context;
     }
@@ -15,7 +16,7 @@ public class SeanceController : Controller
     // GET: SEANCES
     public async Task<IActionResult> Index()    
     {
-        return View(await _context.Seance.ToListAsync());
+        return View(await _context.Seances.ToListAsync());
     }
 
     // GET: SEANCES/Details/5
@@ -26,7 +27,7 @@ public class SeanceController : Controller
             return NotFound();
         }
 
-        var seance = await _context.Seance
+        var seance = await _context.Seances
             .FirstOrDefaultAsync(m => m.Id == id);
         if (seance == null)
         {
@@ -47,7 +48,7 @@ public class SeanceController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("ID,Title,ReleaseDate,Genre,Price")] Seance movie)
+    public async Task<IActionResult> Create([Bind("ID,Title,ReleaseDate,Genre,Price")] Seance seance)
     {
         if (ModelState.IsValid)
         {
@@ -66,7 +67,7 @@ public class SeanceController : Controller
             return NotFound();
         }
 
-        var seance = await _context.Seance.FindAsync(id);
+        var seance = await _context.Seances.FindAsync(id);
         if (seance == null)
         {
             return NotFound();
@@ -79,7 +80,7 @@ public class SeanceController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int? id, [Bind("ID,Title,ReleaseDate,Genre,Price")] Seance movie)
+    public async Task<IActionResult> Edit(int? id, [Bind("ID,Title,ReleaseDate,Genre,Price")] Seance seance)
     {
         if (id != seance.Id)
         {
@@ -117,7 +118,7 @@ public class SeanceController : Controller
             return NotFound();
         }
 
-        var seance = await _context.Seance
+        var seance = await _context.Seances
             .FirstOrDefaultAsync(m => m.Id == id);
         if (seance == null)
         {
@@ -132,10 +133,10 @@ public class SeanceController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(int? id)
     {
-        var seance = await _context.Seance.FindAsync(id);
+        var seance = await _context.Seances.FindAsync(id);
         if (seance != null)
         {
-            _context.Seance.Remove(seance);
+            _context.Seances.Remove(seance);
         }
 
         await _context.SaveChangesAsync();
@@ -144,6 +145,6 @@ public class SeanceController : Controller
 
     private bool SeanceExists(int? id)
     {
-        return _context.Seance.Any(e => e.Id == id);
+        return _context.Seances.Any(e => e.Id == id);
     }
 }

@@ -43,11 +43,23 @@
         </dd>
     </dl>
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Salles)
+        <dt class="col-sm-2">
+            Salles
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Salles)
+        <dd class="col-sm-10">
+            @if (Model.Salles != null && Model.Salles.Any())
+            {
+                <ul>
+                    @foreach (var salle in Model.Salles)
+                    {
+                        <li>@salle.Id</li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <p>No Salles available.</p>
+            }
         </dd>
     </dl>
     <form asp-action="Delete">
