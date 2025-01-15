@@ -8,6 +8,6 @@
         public string Rue { get; set; }
         public string Numero { get; set; }
 
-        public ICollection<Salle> Salles { get; set; }
+        public ICollection<Salle>? Salles { get; set; }
     }
 }

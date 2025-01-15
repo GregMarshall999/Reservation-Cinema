@@ -33,7 +33,8 @@ namespace ReservationCinema.Data
             modelBuilder.Entity<Salle>()
                 .HasOne(s => s.Cinema)
                 .WithMany(f => f.Salles)
-                .HasForeignKey(s => s.CinemaId);
+                .HasForeignKey(s => s.CinemaId)
+                .IsRequired(false);
         }
     }
 }
