@@ -10,7 +10,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="View">
+        <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <div class="form-group">
@@ -20,21 +20,15 @@
             </div>
 
             <div class="form-group">
-                <label asp-for="DateConstr" class="control-label"></label>
-                <input asp-for="DateConstr" class="form-control" />
+                <label asp-for="DateConstr" class="control-label">Date de Construction</label>
+                <input type="date" asp-for="DateConstr" class="form-control" />
                 <span asp-validation-for="DateConstr" class="text-danger"></span>
             </div>
 
             <div class="form-group">
-                <label asp-for="CinemaId" class="control-label"></label>
-                <input asp-for="CinemaId" class="form-control" />
+                <label asp-for="CinemaId" class="control-label">Cinema</label>
+                <select asp-for="CinemaId" class="form-control" asp-items="ViewBag.Cinemas"></select>
                 <span asp-validation-for="CinemaId" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Cinema" class="control-label"></label>
-                <input asp-for="Cinema" class="form-control" />
-                <span asp-validation-for="Cinema" class="text-danger"></span>
             </div>
 
             <div class="form-group">
@@ -52,3 +46,9 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

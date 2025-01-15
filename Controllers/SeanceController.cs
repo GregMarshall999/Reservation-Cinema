@@ -48,7 +48,7 @@ public class SeanceController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("ID,Title,ReleaseDate,Genre,Price")] Seance seance)
+    public async Task<IActionResult> Create([Bind("Id,Tarif")] Seance seance)
     {
         if (ModelState.IsValid)
         {
@@ -80,7 +80,7 @@ public class SeanceController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int? id, [Bind("ID,Title,ReleaseDate,Genre,Price")] Seance seance)
+    public async Task<IActionResult> Edit(int? id, [Bind("Id,Tarif")] Seance seance)
     {
         if (id != seance.Id)
         {

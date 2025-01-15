@@ -1,5 +1,6 @@
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ReservationCinema.Data;
 using ReservationCinema.Models;
@@ -40,6 +41,7 @@ public class SalleController : Controller
     // GET: SALLES/Create
     public IActionResult Create()
     {
+        ViewBag.Cinemas = new SelectList(_context.Cinemas, "Id", "Nom");
         return View();
     }
 
@@ -48,8 +50,17 @@ public class SalleController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("ID,Title,ReleaseDate,Genre,Price")] Salle salle)
+    public async Task<IActionResult> Create([Bind("Id,Capacite,DateConstr,CinemaId")] Salle salle)
     {
+        salle.Cinema = await _context.Cinemas.FindAsync(salle.CinemaId);
+        if (salle.Cinema == null)
+        {
+            ModelState.AddModelError("CinemaId", "Invalid Cinema Id.");
+            return View(salle);
+        }
+
+        ModelState.Remove("Cinema");
+
         if (ModelState.IsValid)
         {
             _context.Add(salle);
@@ -72,6 +83,8 @@ public class SalleController : Controller
         {
             return NotFound();
         }
+
+        ViewBag.Cinemas = new SelectList(_context.Cinemas, "Id", "Nom", salle.CinemaId);
         return View(salle);
     }
 
@@ -80,7 +93,7 @@ public class SalleController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int? id, [Bind("ID,Title,ReleaseDate,Genre,Price")] Salle salle)
+    public async Task<IActionResult> Edit(int? id, [Bind("Id,Capacite,DateConstr,CinemaId")] Salle salle)
     {
         if (id != salle.Id)
         {
@@ -91,6 +104,13 @@ public class SalleController : Controller
         {
             try
             {
+                salle.Cinema = await _context.Cinemas.FindAsync(salle.CinemaId);
+                if (salle.Cinema == null)
+                {
+                    ModelState.AddModelError("CinemaId", "Invalid Cinema ID.");
+                    return View(salle);
+                }
+
                 _context.Update(salle);
                 await _context.SaveChangesAsync();
             }
