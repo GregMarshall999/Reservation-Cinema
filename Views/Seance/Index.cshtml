@@ -16,15 +16,6 @@
                 @Html.DisplayNameFor(model => model.Tarif)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FilmId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.HoraireId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SalleId)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Film)
             </th>
             <th>
@@ -43,22 +34,13 @@
                 @Html.DisplayFor(model => item.Tarif)
             </td>
             <td>
-                @Html.DisplayFor(model => item.FilmId)
+                @Html.DisplayFor(model => item.Film.Titre)
             </td>
             <td>
-                @Html.DisplayFor(model => item.HoraireId)
+                @Html.DisplayFor(model => item.Horaire.HeureDebut)
             </td>
             <td>
-                @Html.DisplayFor(model => item.SalleId)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.Film)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.Horaire)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.Salle)
+                @Html.DisplayFor(model => item.Salle.Capacite)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

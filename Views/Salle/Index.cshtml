@@ -19,13 +19,7 @@
                 @Html.DisplayNameFor(model => model.DateConstr)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CinemaId)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Cinema)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Seances)
             </th>
             <th></th>
         </tr>
@@ -40,13 +34,7 @@
                 @Html.DisplayFor(model => item.DateConstr)
             </td>
             <td>
-                @Html.DisplayFor(model => item.CinemaId)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.Cinema)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.Seances)
+                @Html.DisplayFor(model => item.Cinema.Nom)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

@@ -1,6 +1,8 @@
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using ReservationCinema.Data;
 using ReservationCinema.Models;
 
@@ -16,7 +18,16 @@ public class SeanceController : Controller
     // GET: SEANCES
     public async Task<IActionResult> Index()    
     {
-        return View(await _context.Seances.ToListAsync());
+        var seance = await _context.Seances.ToListAsync();
+
+        foreach (var item in seance)
+        {
+            item.Film = await _context.Films.FindAsync(item.FilmId);
+            item.Horaire = await _context.Horaires.FindAsync(item.HoraireId);
+            item.Salle = await _context.Salles.FindAsync(item.SalleId);
+        }
+
+        return View(seance);
     }
 
     // GET: SEANCES/Details/5
@@ -34,12 +45,19 @@ public class SeanceController : Controller
             return NotFound();
         }
 
+        seance.Film = await _context.Films.FindAsync(seance.FilmId);
+        seance.Horaire = await _context.Horaires.FindAsync(seance.HoraireId);
+        seance.Salle = await _context.Salles.FindAsync(seance.SalleId);
+
         return View(seance);
     }
 
     // GET: SEANCES/Create
     public IActionResult Create()
     {
+        ViewBag.Films = new SelectList(_context.Films, "Id", "Titre");
+        ViewBag.Horaires = new SelectList(_context.Horaires, "Id", "HeureDebut");
+        ViewBag.Salles = new SelectList(_context.Salles, "Id", "Capacite");
         return View();
     }
 
@@ -48,8 +66,38 @@ public class SeanceController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("Id,Tarif")] Seance seance)
+    public async Task<IActionResult> Create([Bind("Id,Tarif,FilmId,HoraireId,SalleId")] Seance seance)
     {
+        seance.Film = await _context.Films.FindAsync(seance.FilmId);
+        seance.Horaire = await _context.Horaires.FindAsync(seance.HoraireId);
+        seance.Salle = await _context.Salles.FindAsync(seance.SalleId);
+        var invalid = false;
+
+        if (seance.Film == null)
+        {
+            ModelState.AddModelError("FilmId", "Invalid Film Id.");
+            invalid = true;
+        }
+        if (seance.Horaire == null)
+        {
+            ModelState.AddModelError("HoraireId", "Invalid Horaire Id.");
+            invalid = true;
+        }
+        if (seance.Salle == null)
+        {
+            ModelState.AddModelError("SalleId", "Invalid Salle Id.");
+            invalid = true;
+        }
+
+        if (invalid) 
+        {
+            return View(seance);
+        }
+
+        ModelState.Remove("Film");
+        ModelState.Remove("Horaire");
+        ModelState.Remove("Salle");
+
         if (ModelState.IsValid)
         {
             _context.Add(seance);
@@ -72,6 +120,10 @@ public class SeanceController : Controller
         {
             return NotFound();
         }
+
+        ViewBag.Films = new SelectList(_context.Films, "Id", "Titre", seance.FilmId);
+        ViewBag.Horaires = new SelectList(_context.Horaires, "Id", "HeureDebut", seance.HoraireId);
+        ViewBag.Salles = new SelectList(_context.Salles, "Id", "Capacite", seance.SalleId);
         return View(seance);
     }
 
@@ -80,12 +132,42 @@ public class SeanceController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int? id, [Bind("Id,Tarif")] Seance seance)
+    public async Task<IActionResult> Edit(int? id, [Bind("Id,Tarif,FilmId,HoraireId,SalleId")] Seance seance)
     {
         if (id != seance.Id)
         {
             return NotFound();
         }
+
+        seance.Film = await _context.Films.FindAsync(seance.FilmId);
+        seance.Horaire = await _context.Horaires.FindAsync(seance.HoraireId);
+        seance.Salle = await _context.Salles.FindAsync(seance.SalleId);
+        var invalid = false;
+
+        if (seance.Film == null)
+        {
+            ModelState.AddModelError("FilmId", "Invalid Film Id.");
+            invalid = true;
+        }
+        if (seance.Horaire == null)
+        {
+            ModelState.AddModelError("HoraireId", "Invalid Horaire Id.");
+            invalid = true;
+        }
+        if (seance.Salle == null)
+        {
+            ModelState.AddModelError("SalleId", "Invalid Salle Id.");
+            invalid = true;
+        }
+
+        if (invalid)
+        {
+            return View(seance);
+        }
+
+        ModelState.Remove("Film");
+        ModelState.Remove("Horaire");
+        ModelState.Remove("Salle");
 
         if (ModelState.IsValid)
         {

@@ -10,50 +10,33 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="View">
+        <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <div class="form-group">
                 <label asp-for="Tarif" class="control-label"></label>
-                <input asp-for="Tarif" class="form-control" />
+                <input type="number" asp-for="Tarif" class="form-control" />
                 <span asp-validation-for="Tarif" class="text-danger"></span>
             </div>
 
             <div class="form-group">
-                <label asp-for="FilmId" class="control-label"></label>
-                <input asp-for="FilmId" class="form-control" />
+                <label asp-for="FilmId" class="control-label">Film</label>
+                <select asp-for="FilmId" class="form-control" asp-items="ViewBag.Films"></select>
                 <span asp-validation-for="FilmId" class="text-danger"></span>
             </div>
 
             <div class="form-group">
-                <label asp-for="HoraireId" class="control-label"></label>
-                <input asp-for="HoraireId" class="form-control" />
+                <label asp-for="HoraireId" class="control-label">Horaire</label>
+                <select asp-for="HoraireId" class="form-control" asp-items="ViewBag.Horaires"></select>
                 <span asp-validation-for="HoraireId" class="text-danger"></span>
             </div>
 
             <div class="form-group">
-                <label asp-for="SalleId" class="control-label"></label>
-                <input asp-for="SalleId" class="form-control" />
+                <label asp-for="SalleId" class="control-label">Salle</label>
+                <select asp-for="SalleId" class="form-control" asp-items="ViewBag.Salles"></select>
                 <span asp-validation-for="SalleId" class="text-danger"></span>
             </div>
 
-            <div class="form-group">
-                <label asp-for="Film" class="control-label"></label>
-                <input asp-for="Film" class="form-control" />
-                <span asp-validation-for="Film" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Horaire" class="control-label"></label>
-                <input asp-for="Horaire" class="form-control" />
-                <span asp-validation-for="Horaire" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Salle" class="control-label"></label>
-                <input asp-for="Salle" class="form-control" />
-                <span asp-validation-for="Salle" class="text-danger"></span>
-            </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
@@ -64,3 +47,9 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

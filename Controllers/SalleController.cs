@@ -17,6 +17,13 @@ public class SalleController : Controller
     // GET: SALLES
     public async Task<IActionResult> Index()    
     {
+        var salles = await _context.Salles.ToListAsync();
+
+        foreach (var item in salles)
+        {
+            item.Cinema = await _context.Cinemas.FindAsync(item.CinemaId);
+        }
+
         return View(await _context.Salles.ToListAsync());
     }
 
@@ -34,6 +41,8 @@ public class SalleController : Controller
         {
             return NotFound();
         }
+
+        salle.Cinema = await _context.Cinemas.FindAsync(salle.CinemaId);
 
         return View(salle);
     }
