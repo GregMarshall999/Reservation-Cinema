@@ -7,10 +7,14 @@ using ReservationCinema.Models;
 public class CinemaController : Controller
 {
     private readonly ApplicationDbContext _context;
+    private readonly CinemaService _cinemaService;
+    private readonly FilmService _filmService;
 
     public CinemaController(ApplicationDbContext context)
     {
         _context = context;
+        _cinemaService = cinemaService;
+        _filmService = filmService;
     }
 
     // GET: CINEMAS
@@ -35,6 +39,28 @@ public class CinemaController : Controller
         }
 
         return View(cinema);
+    }
+
+    public IActionResult DetailsPublic(int id)
+    {
+        // Récupérer les détails du cinéma par ID
+        var cinemaDto = _cinemaService.GetCinemaById(id);
+
+        if (cinemaDto == null)
+        {
+            return NotFound();
+        }
+
+        // Récupérer les films programmés pour ce cinéma
+        var films = _filmService.GetFilmsForCinemaToday(id);
+
+        var cinemaDetailsDto = new CinemaDetailsDto
+        {
+            Cinema = cinemaDto,
+            Films = films
+        };
+
+        return View(cinemaDetailsDto);
     }
 
     // GET: CINEMAS/Create

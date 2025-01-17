@@ -8,9 +8,12 @@ public class FilmController : Controller
 {
     private readonly ApplicationDbContext _context;
 
+private readonly FilmService _filmService;
+
     public FilmController(ApplicationDbContext context)
     {
         _context = context;
+        _filmService = filmService;
     }
 
     // GET: FILMS
@@ -18,6 +21,15 @@ public class FilmController : Controller
     {
         return View(await _context.Films.ToListAsync());
     }
+
+    public IActionResult Index2(string query, int page = 1)
+        {
+            // Appeler le service pour récupérer les films paginés
+            var paginatedFilms = _filmService.SearchFilms(query, page);
+
+            // Retourner la vue avec le modèle Paginated<FilmDto>
+            return View(paginatedFilms);
+        }
 
     // GET: FILMS/Details/5
     public async Task<IActionResult> Details(int? id)

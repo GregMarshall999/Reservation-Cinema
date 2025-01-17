@@ -1,21 +1,34 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using ReservationCinema.Models;
-
+using ReservationCinema.Services;
+using ReservationCinema.Dto;
 namespace ReservationCinema.Controllers
 {
     public class HomeController : Controller
     {
+
+        private readonly CinemaService _cinemaService;
+        private readonly FilmService _filmService;
+
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, CinemaService cinemaService, FilmService filmService)
         {
+            _cinemaService = cinemaService;
+            _filmService = filmService;
             _logger = logger;
         }
-
-        public IActionResult Index()
+        [HttpGet]
+        public IActionResult Index(string query, int page = 1, int pageSize = 4)
         {
-            return View();
+            // Récupérer les résultats paginés
+            var result = _cinemaService.GetPaginatedCinemas(query, page, pageSize);
+
+            // Ajouter des informations supplémentaires nécessaires à la vue via ViewBag
+            ViewBag.SearchQuery = query;
+
+            return View(result);
         }
 
         public IActionResult Privacy()
@@ -30,3 +43,4 @@ namespace ReservationCinema.Controllers
         }
     }
 }
+

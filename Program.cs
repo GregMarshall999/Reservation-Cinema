@@ -1,7 +1,19 @@
 using Microsoft.EntityFrameworkCore;
 using ReservationCinema.Data;
+using ReservationCinema.Repositories;
+using ReservationCinema.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+
+
+
+// ____________________________________________________________________________________
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>)); 
+builder.Services.AddScoped<ICinemaRepository, CinemaRepository>(); 
+builder.Services.AddScoped<IFilmRepository, FilmRepository>(); 
+builder.Services.AddScoped<FilmService>();
+builder.Services.AddScoped<CinemaService>();
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -11,6 +23,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
         new MySqlServerVersion(new Version(4, 9, 7)) //Adapter à la version sur WAMP
     )
 );
+
 
 var app = builder.Build();
 
@@ -30,7 +43,18 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapControllerRoute(
+    name: "film",
+    pattern: "film",
+    defaults: new { controller = "Film", action = "Index2" });
+
+
+app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.MapControllerRoute(
+    name: "cinema",
+    pattern: "cinema/Details/{id:int}",
+    defaults: new { controller = "Cinema", action = "DetailsPublic" });
 
 app.Run();
