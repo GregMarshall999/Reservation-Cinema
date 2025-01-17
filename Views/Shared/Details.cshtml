@@ -35,10 +35,7 @@
                                     @foreach (var seance in film.Seances)
                                     {
                                         <li class="list-group-item">
-                                            <strong>Salle :</strong> @seance.CinemaNom - @seance.Ville <br />
-                                            <strong>Salle Id :</strong> @seance.SalleId <br />
-                                            <strong>Heure de début :</strong> @seance.HeureDebut <br />
-                                            <strong>Heure de fin :</strong> @seance.HeureFin <br />
+                                            <strong>Heure de début :</strong> @seance.Horaire.HeureDebut <br />
                                             <strong>Tarif :</strong> @seance.Tarif €<br />
                                         </li>
                                     }

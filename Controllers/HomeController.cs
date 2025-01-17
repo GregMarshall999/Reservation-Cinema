@@ -41,29 +41,6 @@ namespace ReservationCinema.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-
-        //[HttpGet]
-        //public IActionResult Details(int id)
-        //{
-        //    // Récupérer les détails du cinéma par ID
-        //    var cinemaDto = _cinemaService.GetCinemaById(id);
-
-        //    if (cinemaDto == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    // Récupérer les films programmés pour ce cinéma
-        //    var films = _filmService.GetFilmsForCinemaToday(id);
-
-        //    var cinemaDetailsDto = new CinemaDetailsDto
-        //    {
-        //        Cinema = cinemaDto,
-        //        Films = films
-        //    };
-
-        //    return View(cinemaDetailsDto);
-        //}
     }
 }
 

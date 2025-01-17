@@ -29,11 +29,12 @@
                                     @foreach (var seance in film.Seances)
                                     {
                                         <li class="list-group-item">
-                                            <strong>Cinéma :</strong> @seance.CinemaNom<br />
-                                            <strong>Ville :</strong> @seance.Ville<br />
-                                            <strong>Salle :</strong> @seance.SalleId<br />
-                                            <strong>Jour :</strong> @DateTime.Parse(seance.HeureDebut).ToString("dd-MM-yyyy", new System.Globalization.CultureInfo("fr-FR"))<br />
-                                            <strong>Horaire :</strong> @seance.HeureDebut - @seance.HeureFin<br />
+                                            <strong>Cinéma :</strong> @seance.Salle.Cinema.Nom<br />
+                                            <strong>Ville :</strong> @seance.Salle.Cinema.Ville<br />
+                                            <strong>Salle :</strong> @seance.Salle.Nom<br />
+                                            <strong>Capacité :</strong> @seance.Salle.Capacite<br />
+                                            <strong>Jour :</strong> @DateTime.Parse(seance.Horaire.HeureDebut).ToString("dd-MM-yyyy", new System.Globalization.CultureInfo("fr-FR"))<br />
+                                            <strong>Horaire :</strong> @DateTime.Parse(seance.Horaire.HeureDebut).ToString("HH:mm", new System.Globalization.CultureInfo("fr-FR"))<br />
                                             <strong>Tarif :</strong> @seance.Tarif €<br />
                                         </li>
                                     }
@@ -61,10 +62,10 @@
                     }
 
                     <li class="page-item disabled">
-                        <span class="page-link">Page @Model.Page sur @Math.Ceiling((double)Model.Total / 10)</span>
+                        <span class="page-link">Page @Model.Page sur @Math.Ceiling((double)Model.Total / Model.Data.Count)</span>
                     </li>
 
-                    @if (Model.Page < Math.Ceiling((double)Model.Total / 10))
+                    @if (Model.Page < Math.Ceiling((double)Model.Total / Model.Data.Count))
                     {
                         <li class="page-item">
                             <a class="page-link" href="@Url.Action("Index", "Film", new { query = Context.Request.Query["query"], page = Model.Page + 1 })">Suivant</a>

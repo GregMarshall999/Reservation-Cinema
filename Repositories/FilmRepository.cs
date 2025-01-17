@@ -53,12 +53,12 @@ namespace ReservationCinema.Repositories
             var films = _context.Films
                                 .Where(f => f.Seances
                                              .Any(s => s.Salle.CinemaId == cinemaId && s.Horaire.HeureDebut.Date == DateTime.Today))
-                                .Include(f => f.Seances)  // Inclure les séances pour chaque film
-                                .ThenInclude(s => s.Horaire)  // Inclure l'horaire pour chaque séance
-                                .ThenInclude(h => h.Seances) // Inclure les séances
+                                .Include(f => f.Seances)  
+                                .ThenInclude(s => s.Horaire)  
+                                .ThenInclude(h => h.Seances) 
                                 .Include(f => f.Seances)
-                                .ThenInclude(s => s.Salle)  // Inclure la salle
-                                .ThenInclude(s => s.Cinema)  // Inclure le cinéma 
+                                .ThenInclude(s => s.Salle) 
+                                .ThenInclude(s => s.Cinema) 
                                 .ToList();
 
             return films;
