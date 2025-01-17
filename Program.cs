@@ -45,7 +45,7 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "film",
     pattern: "film",
-    defaults: new { controller = "Film", action = "Index" });
+    defaults: new { controller = "Film", action = "Index2" });
 
 
 app.MapControllerRoute(
@@ -55,6 +55,6 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "cinema",
     pattern: "cinema/Details/{id:int}",
-    defaults: new { controller = "Cinema", action = "Details" });
+    defaults: new { controller = "Cinema", action = "DetailsPublic" });
 
 app.Run();

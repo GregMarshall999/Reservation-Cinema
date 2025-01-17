@@ -13,7 +13,7 @@ namespace ReservationCinema.Controllers
             _filmService = filmService;
         }
 
-        public IActionResult Index(string query, int page = 1)
+        public IActionResult Index2(string query, int page = 1)
         {
             // Appeler le service pour récupérer les films paginés
             var paginatedFilms = _filmService.SearchFilms(query, page);

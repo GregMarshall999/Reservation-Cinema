@@ -16,7 +16,7 @@ namespace ReservationCinema.Controllers
             _cinemaService = cinemaService;
             _filmService = filmService;
         }
-        public IActionResult Details(int id)
+        public IActionResult DetailsPublic(int id)
         {
             // Récupérer les détails du cinéma par ID
             var cinemaDto = _cinemaService.GetCinemaById(id);
