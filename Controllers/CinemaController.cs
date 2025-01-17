@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ReservationCinema.Data;
+using ReservationCinema.Dto;
 using ReservationCinema.Models;
+using ReservationCinema.Services;
 
 public class CinemaController : Controller
 {
@@ -10,7 +12,7 @@ public class CinemaController : Controller
     private readonly CinemaService _cinemaService;
     private readonly FilmService _filmService;
 
-    public CinemaController(ApplicationDbContext context)
+    public CinemaController(ApplicationDbContext context, CinemaService cinemaService, FilmService filmService)
     {
         _context = context;
         _cinemaService = cinemaService;

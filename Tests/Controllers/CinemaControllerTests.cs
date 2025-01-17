@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using ReservationCinema.Data;
 using ReservationCinema.Models;
+using ReservationCinema.Repositories;
 using Xunit;
 
 namespace ReservationCinema.Tests.Controllers
@@ -30,7 +31,7 @@ namespace ReservationCinema.Tests.Controllers
         public async Task Index_ReturnsViewWithListOfCinemas()
         {
             var context = GetInMemoryDbContext();
-            var controller = new CinemaController(context);
+            var controller = new CinemaController(context, new Services.CinemaService(new CinemaRepository(context)), new Services.FilmService(new FilmRepository(context)));
 
             var result = await controller.Index();
 
@@ -43,7 +44,7 @@ namespace ReservationCinema.Tests.Controllers
         public async Task Details_ReturnsCinema_WhenIdIsValid()
         {
             var context = GetInMemoryDbContext();
-            var controller = new CinemaController(context);
+            var controller = new CinemaController(context, new Services.CinemaService(new CinemaRepository(context)), new Services.FilmService(new FilmRepository(context)));
 
             var result = await controller.Details(1);
 
@@ -56,7 +57,7 @@ namespace ReservationCinema.Tests.Controllers
         public async Task Details_ReturnsNotFound_WhenIdIsInvalid()
         {
             var context = GetInMemoryDbContext();
-            var controller = new CinemaController(context);
+            var controller = new CinemaController(context, new Services.CinemaService(new CinemaRepository(context)), new Services.FilmService(new FilmRepository(context)));
 
             var result = await controller.Details(99);
 
@@ -67,7 +68,7 @@ namespace ReservationCinema.Tests.Controllers
         public async Task Create_AddsCinemaAndRedirects_WhenModelStateIsValid()
         {
             var context = GetInMemoryDbContext();
-            var controller = new CinemaController(context);
+            var controller = new CinemaController(context, new Services.CinemaService(new CinemaRepository(context)), new Services.FilmService(new FilmRepository(context)));
             var newCinema = new Cinema { Id = 3, Nom = "Cinema Three", Ville = "City C", Rue = "Street C", Numero = "789" };
 
             var result = await controller.Create(newCinema);
@@ -82,7 +83,7 @@ namespace ReservationCinema.Tests.Controllers
         public async Task Edit_UpdatesCinemaAndRedirects_WhenModelStateIsValid()
         {
             var context = GetInMemoryDbContext();
-            var controller = new CinemaController(context);
+            var controller = new CinemaController(context, new Services.CinemaService(new CinemaRepository(context)), new Services.FilmService(new FilmRepository(context)));
             var updatedCinema = new Cinema { Id = 1, Nom = "Updated Cinema", Ville = "City A", Rue = "Updated Street", Numero = "123" };
 
             //Failure Cause.
@@ -104,7 +105,7 @@ namespace ReservationCinema.Tests.Controllers
             //Context isn't flushed before the seeding?
             //Why does it flush with all the other tests?
             var context = GetInMemoryDbContext();
-            var controller = new CinemaController(context);
+            var controller = new CinemaController(context, new Services.CinemaService(new CinemaRepository(context)), new Services.FilmService(new FilmRepository(context)));
 
             var result = await controller.DeleteConfirmed(1);
 
@@ -117,7 +118,7 @@ namespace ReservationCinema.Tests.Controllers
         public async Task Delete_ReturnsNotFound_WhenIdIsInvalid()
         {
             var context = GetInMemoryDbContext();
-            var controller = new CinemaController(context);
+            var controller = new CinemaController(context, new Services.CinemaService(new CinemaRepository(context)), new Services.FilmService(new FilmRepository(context)));
 
             var result = await controller.Delete(99);
 
