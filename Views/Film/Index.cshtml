@@ -32,6 +32,7 @@
                                             <strong>Cinéma :</strong> @seance.CinemaNom<br />
                                             <strong>Ville :</strong> @seance.Ville<br />
                                             <strong>Salle :</strong> @seance.SalleId<br />
+                                            <strong>Jour :</strong> @DateTime.Parse(seance.HeureDebut).ToString("dd-MM-yyyy", new System.Globalization.CultureInfo("fr-FR"))<br />
                                             <strong>Horaire :</strong> @seance.HeureDebut - @seance.HeureFin<br />
                                             <strong>Tarif :</strong> @seance.Tarif €<br />
                                         </li>

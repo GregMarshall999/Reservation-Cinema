@@ -13,7 +13,6 @@ builder.Services.AddScoped<ICinemaRepository, CinemaRepository>();
 builder.Services.AddScoped<IFilmRepository, FilmRepository>(); 
 builder.Services.AddScoped<FilmService>();
 builder.Services.AddScoped<CinemaService>();
-builder.Services.AddScoped<FilmService>(); 
 
 
 // Add services to the container.
@@ -52,5 +51,10 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.MapControllerRoute(
+    name: "cinema",
+    pattern: "cinema/Details/{id:int}",
+    defaults: new { controller = "Cinema", action = "Details" });
 
 app.Run();

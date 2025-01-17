@@ -1,0 +1,61 @@
+﻿@using ReservationCinema.Dto
+@model ReservationCinema.Dto.CinemaDetailsDto
+
+<div class="container mt-4">
+    <h1 class="text-center mb-4">Détails du cinéma</h1>
+
+    <!-- Affichage des informations du cinéma -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <h2 class="card-title">@Model.Cinema.Nom</h2>
+            <p><strong>Ville :</strong> @Model.Cinema.Ville</p>
+            <p><strong>Adresse :</strong> @Model.Cinema.Rue, @Model.Cinema.Numero</p>
+        </div>
+    </div>
+
+    <!-- Affichage des films programmés aujourd'hui -->
+    <h3>Films programmés aujourd'hui</h3>
+    @if (Model.Films.Any())
+    {
+        <div class="row">
+            @foreach (var film in Model.Films)
+            {
+                <div class="col-md-6 mb-4">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-body">
+                            <h4 class="card-title">@film.Titre</h4>
+                            <p><strong>Genre :</strong> @film.Genre</p>
+                            <p><strong>Année :</strong> @film.Annee</p>
+
+                            <!-- Affichage des séances programmées pour ce film -->
+                            <h5>Séances programmées :</h5>
+                            @if (film.Seances.Any())
+                            {
+                                <ul class="list-group">
+                                    @foreach (var seance in film.Seances)
+                                    {
+                                        <li class="list-group-item">
+                                            <strong>Salle :</strong> @seance.CinemaNom - @seance.Ville <br />
+                                            <strong>Salle Id :</strong> @seance.SalleId <br />
+                                            <strong>Heure de début :</strong> @seance.HeureDebut <br />
+                                            <strong>Heure de fin :</strong> @seance.HeureFin <br />
+                                            <strong>Tarif :</strong> @seance.Tarif €<br />
+                                        </li>
+                                    }
+                                </ul>
+                            }
+                            else
+                            {
+                                <p>Aucune séance programmée pour ce film aujourd'hui.</p>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <p class="text-muted">Aucun film programmé aujourd'hui.</p>
+    }
+</div>

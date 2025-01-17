@@ -27,6 +27,7 @@ namespace ReservationCinema.Services
             // Mapper chaque Cinema vers CinemaDto
             var cinemaDtos = cinemas.Select(c => new CinemaDto
             {
+                Id = c.Id,
                 Nom = c.Nom,
                 Ville = c.Ville,
                 Rue = c.Rue,
