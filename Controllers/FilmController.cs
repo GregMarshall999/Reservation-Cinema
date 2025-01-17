@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ReservationCinema.Dto;
 using ReservationCinema.Services;
 
 namespace ReservationCinema.Controllers
@@ -12,10 +13,13 @@ namespace ReservationCinema.Controllers
             _filmService = filmService;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string query, int page = 1)
         {
-            var films = _filmService.GetAllFilms();
-            return View(films); // Passe les films à la vue
+            // Appeler le service pour récupérer les films paginés
+            var paginatedFilms = _filmService.SearchFilms(query, page);
+
+            // Retourner la vue avec le modèle Paginated<FilmDto>
+            return View(paginatedFilms);
         }
     }
 }

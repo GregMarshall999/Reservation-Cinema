@@ -15,9 +15,10 @@ namespace ReservationCinema.Repositories
             _dbSet = _context.Set<T>();
         }
 
-        public IEnumerable<T> GetAll()
+        public T GetById(int id)
         {
-            return _dbSet.ToList(); 
+            return _dbSet.Find(id);
         }
+
     }
 }

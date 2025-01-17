@@ -8,11 +8,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 // ____________________________________________________________________________________
-builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>)); // Enregistrer Repository<T> pour tous les types T
-builder.Services.AddScoped<ICinemaRepository, CinemaRepository>();  // Enregistrement de l'interface et de l'implémentation
-// Ajouter FilmService au conteneur
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>)); 
+builder.Services.AddScoped<ICinemaRepository, CinemaRepository>(); 
+builder.Services.AddScoped<IFilmRepository, FilmRepository>(); 
 builder.Services.AddScoped<FilmService>();
 builder.Services.AddScoped<CinemaService>();
+builder.Services.AddScoped<FilmService>(); 
 
 
 // Add services to the container.
@@ -42,10 +43,9 @@ app.UseRouting();
 
 app.UseAuthorization();
 
-// Ajouter une route personnalisée pour afficher les détails du cinéma
 app.MapControllerRoute(
-    name: "cinema_details",
-    pattern: "films",
+    name: "film",
+    pattern: "film",
     defaults: new { controller = "Film", action = "Index" });
 
 

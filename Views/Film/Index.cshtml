@@ -1,23 +1,80 @@
-﻿@model IEnumerable<ReservationCinema.Models.Film>
+﻿@using ReservationCinema.Dto
+@model ReservationCinema.Dto.PaginationDto<List<FilmDto>>
 
-<h1>Liste des Films</h1>
+<div class="container mt-4">
+    <h1 class="text-center mb-4">Rechercher un film</h1>
 
-<table>
-    <thead>
-        <tr>
-            <th>Nom</th>
-            <th>Durée</th>
-            <th>Genre</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var film in Model)
-        {
-            <tr>
-                <td>@film.Titre</td>
-                <td>@film.Annee</td>
-                <td>@film.Genre</td>
-            </tr>
-        }
-    </tbody>
-</table>
+    <!-- Formulaire de recherche -->
+    <form method="get" action="@Url.Action("Index", "Film")" class="d-flex justify-content-center mb-4">
+        <input type="text" name="query" class="form-control w-50 me-2" placeholder="Rechercher un film" />
+        <button type="submit" class="btn btn-primary">Rechercher</button>
+    </form>
+
+    @if (Model.Data.Any())
+    {
+        <div class="row">
+            @foreach (var film in Model.Data)
+            {
+                <div class="col-md-6 mb-4">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h3 class="card-title">@film.Titre</h3>
+                            <p><strong>Genre :</strong> @film.Genre</p>
+                            <p><strong>Année :</strong> @film.Annee</p>
+
+                            <h5>Séances disponibles :</h5>
+                            @if (film.Seances.Any())
+                            {
+                                <ul class="list-group">
+                                    @foreach (var seance in film.Seances)
+                                    {
+                                        <li class="list-group-item">
+                                            <strong>Cinéma :</strong> @seance.CinemaNom<br />
+                                            <strong>Ville :</strong> @seance.Ville<br />
+                                            <strong>Salle :</strong> @seance.SalleId<br />
+                                            <strong>Horaire :</strong> @seance.HeureDebut - @seance.HeureFin<br />
+                                            <strong>Tarif :</strong> @seance.Tarif €<br />
+                                        </li>
+                                    }
+                                </ul>
+                            }
+                            else
+                            {
+                                <p class="text-muted">Aucune séance disponible.</p>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <!-- Pagination -->
+        <div class="d-flex justify-content-center mt-4">
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    @if (Model.Page > 1)
+                    {
+                        <li class="page-item">
+                            <a class="page-link" href="@Url.Action("Index", "Film", new { query = Context.Request.Query["query"], page = Model.Page - 1 })">Précédent</a>
+                        </li>
+                    }
+
+                    <li class="page-item disabled">
+                        <span class="page-link">Page @Model.Page sur @Math.Ceiling((double)Model.Total / 10)</span>
+                    </li>
+
+                    @if (Model.Page < Math.Ceiling((double)Model.Total / 10))
+                    {
+                        <li class="page-item">
+                            <a class="page-link" href="@Url.Action("Index", "Film", new { query = Context.Request.Query["query"], page = Model.Page + 1 })">Suivant</a>
+                        </li>
+                    }
+                </ul>
+            </nav>
+        </div>
+    }
+    else
+    {
+        <p class="text-muted">Aucun film trouvé.</p>
+    }
+</div>

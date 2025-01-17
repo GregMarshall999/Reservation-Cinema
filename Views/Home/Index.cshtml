@@ -1,13 +1,53 @@
-﻿@model IEnumerable<ReservationCinema.Models.Cinema>
+﻿@using ReservationCinema.Dto
+@model ReservationCinema.Dto.PaginationDto<IEnumerable<CinemaDto>>
 
-<div class="cinema-list container my-5">
-    <h3 class="text-center mb-4">Nos Cinémas</h3>
+<div class="container mt-4">
+    <h1 class="text-center mb-4">Rechercher des cinémas</h1>
 
-    <!-- Inclure la vue partielle de la barre de recherche -->
-    @Html.Partial("_cinemaSearchbar")
+    <form method="get" action="@Url.Action("Index", "Home")" class="d-flex justify-content-center mb-4">
+        <input type="text" name="query" value="@ViewBag.SearchQuery" class="form-control w-50 me-2" placeholder="Rechercher un cinéma" />
+        <button type="submit" class="btn btn-primary">Rechercher</button>
+    </form>
 
-    <!-- Inclure la vue partielle de la liste des cinémas -->
-    <div id="cinemaListContainer">
-        @Html.Partial("_cinemaList", Model)
+    <div>
+        <h2 class="mb-4">Résultats</h2>
+        @if (Model.Data.Any())
+        {
+            <div class="row">
+                @foreach (var cinema in Model.Data)
+                {
+                    <div class="col-md-4 mb-4">
+                        <div class="card shadow-sm h-100">
+                            <div class="card-body">
+                                <h3 class="card-title">@cinema.Nom</h3>
+                                <p class="card-text"><strong>Ville :</strong> @cinema.Ville</p>
+                                <p class="card-text"><strong>Rue :</strong> @cinema.Rue</p>
+                                <p class="card-text"><strong>Numéro :</strong> @cinema.Numero</p>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <p class="text-muted">Aucun cinéma trouvé.</p>
+        }
+    </div>
+
+    <div class="mt-4">
+        <h3>Pagination</h3>
+        <nav>
+            <ul class="pagination justify-content-center">
+                @for (int i = 1; i <= (int)Math.Ceiling((double)Model.Total / 4); i++) // Remplacez 4 par votre pageSize si nécessaire
+                {
+                    <li class="page-item @(i == Model.Page ? "active" : "")">
+                        <a class="page-link" href="@Url.Action("Index", new { query = ViewBag.SearchQuery, page = i })">
+                            @i
+                        </a>
+                    </li>
+                }
+            </ul>
+        </nav>
     </div>
 </div>

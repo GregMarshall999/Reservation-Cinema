@@ -1,0 +1,42 @@
+﻿@using ReservationCinema.Dto
+@model CinemaDetailsDto
+
+<div class="container mt-4">
+    <h1 class="text-center mb-4">@Model.Cinema.Nom - Films programmés aujourd'hui</h1>
+
+    <div class="row">
+        @foreach (var film in Model.Films)
+        {
+            <div class="col-md-6 mb-4">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h3 class="card-title">@film.Titre</h3>
+                        <p><strong>Genre :</strong> @film.Genre</p>
+                        <p><strong>Année :</strong> @film.Annee</p>
+
+                        <h5>Séances disponibles :</h5>
+                        @if (film.Seances.Any())
+                        {
+                            <ul class="list-group">
+                                @foreach (var seance in film.Seances)
+                                {
+                                    <li class="list-group-item">
+                                        <strong>Cinéma :</strong> @seance.CinemaNom<br />
+                                        <strong>Ville :</strong> @seance.Ville<br />
+                                        <strong>Salle :</strong> @seance.SalleId<br />
+                                        <strong>Horaire :</strong> @seance.HeureDebut - @seance.HeureFin<br />
+                                        <strong>Tarif :</strong> @seance.Tarif €<br />
+                                    </li>
+                                }
+                            </ul>
+                        }
+                        else
+                        {
+                            <p class="text-muted">Aucune séance disponible.</p>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
